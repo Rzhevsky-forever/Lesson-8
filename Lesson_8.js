@@ -205,15 +205,29 @@ let form2 = {
     discount: 10
 }
 
+// function isValidPosition (item = 0, requiredFields) {
+//     // function printEcho(value) { console.log(value); }
+//     // let requiredFields = requiredFields;
+//     requiredFields.forEach(function(requiredField){
+//         let propInObj = requiredField in item ? true : false;
+//         console.log(propInObj);
+//         if (propInObj !== true) {
+//             return console.log('В форме не заполнены необходимые поля');  
+//         }
+//         else {
+//             return console.log('Форма заполнена верно');
+//         }
+//     });
+// }
+
 function isValidPosition (item = 0, requiredFields) {
-    // function printEcho(value) { console.log(value); }
-    // let requiredFields = requiredFields;
-    requiredFields.forEach(function(entry){
-        let propInObj = entry in item ? true : false;
-        if (!propInObj) return 'В форме не заполнены необходимые поля';
+    requiredFields.forEach(function(requiredField) {
+        if (requiredField in item != true) 
+            throw new Error ('В форме не заполнены необходимые поля');
     });
-    return 'Форма заполнена верно';
+    return ('Форма заполнена верно');
 }
 
-// console.log(requiredFields[0]);
 console.log (isValidPosition(form2, requiredFields));
+// let test = true;
+// console.log(!test === (test != true));
