@@ -151,28 +151,9 @@ const discountItemPrototype = {
     getFinalPrice (cost  = 0)
     {
         let discount = this.discount / 100;
-        if (cost) {
-            // doing some
-        }
         this.finalPrice = this.price - (this.price * (this.discount / 100));
-        // return price - (price * discount);
     }
 }
-
-// function createDiscountItem(position) {
-//     const discountItem =  Object.create(discountItemPrototype);
-//     Object.assign(discountItem, position);
-//     return discountItem;
-// }
-
-// const discountItems = [];
-// for (let position of positions) {
-//     discountItems.push(createDiscountItem(position));
-// }
-
-// console.log('discountItems :');
-// discountItems[0].getFinalPrice() // -------------------------- РАБОТАЕТ!!
-// console.log(discountItems[0]);
 
 // 2-2
 const finalPrice = {
@@ -181,8 +162,10 @@ const finalPrice = {
         return this.price - (this.price * (this.discount / 100));
     },
 
-    set finalPrice(value){
-        this.finalPrice = value;
+    set finalPrice(value) {
+        this.discount = value < this.price 
+        ? 100 - ((value * 100) / this.price) 
+        : 'Сумма должна быть меньше базовой цены - '+this.price;
     },
 
     toString() {
@@ -192,65 +175,45 @@ const finalPrice = {
 
 function createDiscountItem(position) {
     const discountItem =  Object.create(finalPrice);
-    Object.assign(discountItem, position);
+    Object.assign(discountItem, position); // Как еще можно сделать?
     return discountItem;
 }
 
 const discountItems = [];
 for (let position of positions) {
-    discountItems.push(createDiscountItem(position));
+    discountItems.push(createDiscountItem(position)); 
 }
 
 
 console.log('discountItems :');
-console.log(discountItems[0].finalPrice); // - РАБОТЕТ НО КАК НЕ ПОНЯЛ
+console.log(discountItems[0].finalPrice); // - РАБОТЕТ
+discountItems[0].finalPrice = 8000;
+console.log(discountItems[0].discount); // - РАБОТЕТ
 
 
+// Задание 3
+// const requiredFields = [ 'title', 'price', 'discount' ];
+let requiredFields = [ 'title', 'price', 'discount' ];
 
+let form1 = {
+    title: 'Товар Телепорт бытовой VZHIH-101',
+    price: 7800,
+    discount: 0
+};
+let form2 = {
+    title: 'Товар Телепорт бытовой VZHIH-101',
+    discount: 10
+}
 
-// =========================   OLD CODE  =================================
+function isValidPosition (item = 0, requiredFields) {
+    // function printEcho(value) { console.log(value); }
+    // let requiredFields = requiredFields;
+    requiredFields.forEach(function(entry){
+        let propInObj = entry in item ? true : false;
+        if (!propInObj) return 'В форме не заполнены необходимые поля';
+    });
+    return 'Форма заполнена верно';
+}
 
-// let foo = Object.create(sellProto);
-
-// Object.assign(foo, positions[0]);
-// console.log('foo :');
-// console.log(foo);
-// console.log(foo.getFinalPrice);
-// foo.getFinalPrice() // -------------------------- РАБОТАЕТ!!
-// console.log(foo.finalPrice);
-// console.log( sellProto.isPrototypeOf(foo) );
-// console.log('END foo :');
-
-
-// console.log('Print discount :');
-// console.log(positions[0].finalPrice);
-
-// positions[0].discount = 50;
-// // positions[0].finalPrice = positions[0].getFinalPrice();
-// console.log(positions[0].finalPrice);
-
-
-
-
-// function getFinalPrice (price = false, discount = false, cost  = false)
-
-// function getFinalPrice (price = this.price, discount = this.discount, cost  = 0)
-// {
-    //     discount = discount / 100;
-    //     if (cost) {
-        //         // doing some
-        //     }
-        //     return price - (price * discount);
-        // }
-        
-        // function setFinalPrice (item)
-        // {
-            //     let finalPrice = item.price - (item.price * (item.discount / 100));
-            //     return finalPrice;
-            // }
-            
-            // for (let item of positions) {
-                //     // item.getFinalPrice = getFinalPrice;
-                //     // item.finalPrice = item.getFinalPrice();
-                //     item.finalPrice = setFinalPrice(item);
-                // }
+// console.log(requiredFields[0]);
+console.log (isValidPosition(form2, requiredFields));
