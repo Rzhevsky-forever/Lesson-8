@@ -225,9 +225,12 @@ function isValidPosition (item = 0, requiredFields) {
         if (requiredField in item != true) 
             throw new Error ('В форме не заполнены необходимые поля');
     });
-    return ('Форма заполнена верно');
+    return console.log('Форма заполнена верно');
 }
 
-console.log (isValidPosition(form2, requiredFields));
-// let test = true;
-// console.log(!test === (test != true));
+try {
+    isValidPosition(form2, requiredFields);
+}
+catch (e) {
+    console.log('В форме не заполнены необходимые поля');
+}
