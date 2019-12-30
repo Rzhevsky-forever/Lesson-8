@@ -56,7 +56,7 @@ for (let item of positions) {
 }
 
 // Резервируем товары
-items[0].hold(2);
+items[0].hold(1);
 items[1].hold(8);
 items[1].hold(12);
 items[2].hold(1);
@@ -67,7 +67,6 @@ for (let item of items) {
 }
 
 // Задание 1
-
 // Опишем функциональность unhold (удбрать из резерва)
 const unhold = {
     unhold(amount = 1) {
@@ -98,54 +97,7 @@ for (let item of items) {
     console.log(`Товар ${item}`);
 }
 
-/*
-* Вопрос проверяющему
-*
-*/ 
-// console.log(items[0]);
-    // { title: 'Телепорт бытовой VZHIH-101',
-    //   available: 1,
-    //   holded: 2,
-    //   unhold: [Function: unhold] }
-
-// Не вывел hold. Но :
-
-// items[0].hold(1);
-// console.log(items[0]);
-    // { 
-    //   title: 'Телепорт бытовой VZHIH-101',
-    //   available: 0,
-    //   holded: 3,     -> Зарезервировал товар, хотя выше метод не вывел
-    //   unhold: [Function: unhold] 
-    // }
-
-// Дальше пробую добавить поле более простым способом
-// const foo = {
-//     bar() {
-//         console.log(this.unhold);
-//     },
-//     mar : 'qwe'
-// };
-
-// items[0].foo = foo;
-
-// console.log(items[0]);
-// console.log(Object.prototype.isPrototypeOf(items[0]));
-// console.log(itemPrototype.isPrototypeOf(items[0]));
-    // { title: 'Телепорт бытовой VZHIH-101',
-    //   available: 0,
-    //   holded: 3,
-    //   unhold: [Function: unhold],
-    //   foo: { bar: [Function: bar], mar: 'qwe' } }
-    // true
-    // true
-    // Но снова не вижу методоа hold
-
-// Меня это ставит в тупик. Прошу пояснить что там происходит
-
-
 // Задание 2
-
 const discountItemPrototype = {
     finalPrice : 0,
     getFinalPrice (cost  = 0)
@@ -156,6 +108,7 @@ const discountItemPrototype = {
 }
 
 // 2-2
+// Объявляем прототип
 const finalPrice = {
     get finalPrice()
     {
@@ -165,7 +118,11 @@ const finalPrice = {
     set finalPrice(value) {
         this.discount = value < this.price 
         ? 100 - ((value * 100) / this.price) 
-        : 'Сумма должна быть меньше базовой цены - '+this.price;
+        : `Сумма должна быть меньше базовой цены - ${this.price}`;
+        
+        this.price = value > this.price
+        ? this.price
+        : this.price = value;
     },
 
     toString() {
@@ -185,14 +142,17 @@ for (let position of positions) {
 }
 
 
-console.log('discountItems :');
-console.log(discountItems[0].finalPrice); // - РАБОТЕТ
-discountItems[0].finalPrice = 8000;
-console.log(discountItems[0].discount); // - РАБОТЕТ
+console.log('Задача 2 :');
+console.log(`Базовая цена с учётом скидки : ${discountItems[0].finalPrice}`);
+discountItems[0].finalPrice = 369;
+console.log('Отработал скрипт')
+console.log(
+    `Скида стала : ${discountItems[0].discount}, Цена стала : ${discountItems[0].price}`
+);
 
 
 // Задание 3
-// const requiredFields = [ 'title', 'price', 'discount' ];
+console.log('Задача 3');
 let requiredFields = [ 'title', 'price', 'discount' ];
 
 let form1 = {
@@ -204,21 +164,6 @@ let form2 = {
     title: 'Товар Телепорт бытовой VZHIH-101',
     discount: 10
 }
-
-// function isValidPosition (item = 0, requiredFields) {
-//     // function printEcho(value) { console.log(value); }
-//     // let requiredFields = requiredFields;
-//     requiredFields.forEach(function(requiredField){
-//         let propInObj = requiredField in item ? true : false;
-//         console.log(propInObj);
-//         if (propInObj !== true) {
-//             return console.log('В форме не заполнены необходимые поля');  
-//         }
-//         else {
-//             return console.log('Форма заполнена верно');
-//         }
-//     });
-// }
 
 function isValidPosition (item = 0, requiredFields) {
     requiredFields.forEach(function(requiredField) {
