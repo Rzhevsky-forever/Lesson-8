@@ -22,53 +22,61 @@ var positions = [
 ];
 
 
-// 2-2
-// Объявляем прототип
-const finalPrice = {
-    toString() {
-        return this.finalPrice;
-    }
-}
-
-const finalPriceConfig = {
+const finalPriceConfig = 
+{
     get : function ()
     {
-        return this.price - (this.price * (this.discount / 100));
+        return this.finalPrice = this.price - (this.price * this.discount / 100);
     },
 
-    set : function (value) {
-        this.discount = value < this.price 
-        ? 100 - ((value * 100) / this.price) 
-        : `Сумма должна быть меньше базовой цены - ${this.price}`;
-        
-        this.price = value > this.price
-        ? this.price
-        : this.price = value;
+    set : function (value) 
+    {
+        if (value < this.price) {
+            this.discount = 100 - ((value * 100) / this.price);
+        }
+        if (value > this.price)
+        {
+            `Сумма должна быть меньше базовой цены - ${this.price}`;
+        }
     },
 }
+
+
+// Функция для печати с-ва finalPrice
+const finalPriceToString = function() {
+    console.log(`Конечная цена ${positions[0].finalPrice} скидка ${positions[0].discount} %`);
+}
+
 
 for (let position of positions) {
     // discountItems.push(createDiscountItem(position)); 
-    Object.defineProperty(position, 'finalPrice', finalPriceConfig);
+    Object.defineProperty(position, 'finalPrice', finalPriceConfig); // добавилось не перечисляемое своейство
+    position.finalPriceToString = finalPriceToString; // добавилось перечисляемое свойство.
 }
 
 
-console.log('Задача 2 :');
-console.log(`Базовая цена с учётом скидки : ${positions[0].finalPrice}`);
-positions[0].finalPrice = 369;
-console.log('Отработал скрипт')
-console.log(
-    `Скида стала : ${positions[0].discount}, Цена стала : ${positions[0].price}`
-);
+positions[0].price = 2000;
+positions[0].discount = 50;
+positions[0].finalPriceToString();
+positions[0].finalPrice = 1500;
+positions[0].finalPriceToString();
 
-/**
- * 
- * В вашем комментарии к моему рещению есть :
- * 
- * “Если задать конечную цену, 
- * большую, чем базовая цена, 
- * должно бросаться исключение с пояснением причины.”
- * 
- * Прошу пояснить, что значит здесь "бросаться исключение"?
- * 
- */
+
+console.log('\n' + positions[0].toString); // вернет строкове представление объекта
+positions[0].toString(); // Выполнит непосредственно функцию
+console.log(Object.keys(positions[0])); // Вернет перечисляеме свойства
+console.log(Object.getOwnPropertyNames(positions[0])); // вернет все свойства
+
+
+ /**
+  * 
+  * @param {positions[n]} Obj
+  * @return function 
+  */
+function printPropsOfObj(Obj)
+{
+    console.log('Перечисляем свойства объекта :');
+    for (var prop in Obj) {
+        console.log("obj." + prop + " = " + Obj[prop]);
+    }
+}

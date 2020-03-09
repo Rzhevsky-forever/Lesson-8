@@ -62,3 +62,23 @@ items[1].hold(12);
 items[2].hold(1);
 
 console.log(items[0]);
+
+const qwqw = {
+    get : function ()
+    {
+        return this.price - (this.price * (this.discount / 100));
+    },
+
+    set : function (value) {
+        this.discount = value < this.price 
+        ? 100 - ((value * 100) / this.price) 
+        : `Сумма должна быть меньше базовой цены - ${this.price}`;
+        
+        this.price = value > this.price
+        ? this.price
+        : this.price = value;
+    },
+}
+
+let t = typeof(qwqw);
+console.log(`type is ${t}`);
