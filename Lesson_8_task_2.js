@@ -31,12 +31,19 @@ const finalPriceConfig =
 
     set : function (value) 
     {
-        if (value < this.price) {
+        try 
+        {
+            if (value > this.price) 
+            {
+              throw new SyntaxError(`Сумма должна быть меньше базовой цены - ${this.price}`);
+            }
+
             this.discount = 100 - ((value * 100) / this.price);
         }
-        if (value > this.price)
+
+        catch(e) 
         {
-            `Сумма должна быть меньше базовой цены - ${this.price}`;
+            console.log( "Price Error: " + e.message );
         }
     },
 }
@@ -60,3 +67,5 @@ positions[0].discount = 50;
 positions[0].finalPriceToString();
 positions[0].finalPrice = 1500;
 positions[0].finalPriceToString();
+positions[0].finalPrice = 112500; // Тут будет брошена ошибка
+positions[0].finalPriceToString(); // Тут будет напечатана прошлая конечная цена
