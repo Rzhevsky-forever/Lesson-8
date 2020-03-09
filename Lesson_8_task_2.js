@@ -43,13 +43,13 @@ const finalPriceConfig =
 
 
 // Функция для печати с-ва finalPrice
-const finalPriceToString = function() {
+const finalPriceToString = function() 
+{
     console.log(`Конечная цена ${positions[0].finalPrice} скидка ${positions[0].discount} %`);
 }
 
 
 for (let position of positions) {
-    // discountItems.push(createDiscountItem(position)); 
     Object.defineProperty(position, 'finalPrice', finalPriceConfig); // добавилось не перечисляемое своейство
     position.finalPriceToString = finalPriceToString; // добавилось перечисляемое свойство.
 }
@@ -60,23 +60,3 @@ positions[0].discount = 50;
 positions[0].finalPriceToString();
 positions[0].finalPrice = 1500;
 positions[0].finalPriceToString();
-
-
-console.log('\n' + positions[0].toString); // вернет строкове представление объекта
-positions[0].toString(); // Выполнит непосредственно функцию
-console.log(Object.keys(positions[0])); // Вернет перечисляеме свойства
-console.log(Object.getOwnPropertyNames(positions[0])); // вернет все свойства
-
-
- /**
-  * 
-  * @param {positions[n]} Obj
-  * @return function 
-  */
-function printPropsOfObj(Obj)
-{
-    console.log('Перечисляем свойства объекта :');
-    for (var prop in Obj) {
-        console.log("obj." + prop + " = " + Obj[prop]);
-    }
-}
